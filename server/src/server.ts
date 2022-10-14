@@ -8,13 +8,20 @@
 // Fazer migração npx prisma migration dev
 // Instalar o cliente npm i @prisma/client
 import express from 'express';
+import cors from 'cors';
 import { PrismaClient } from '@prisma/client'
+import { convert1, convert2 } from './utils/convert';
 
 const app = express();
 
-const prisma = new PrismaClient();
+
+const prisma = new PrismaClient({
+    log: ['query']
+});
 
 app.use(express.json());
+app.use(cors());
+
 
 app.get('/games', async (request, response) => {
     const games = await prisma.game.findMany({
@@ -32,7 +39,7 @@ app.get('/games', async (request, response) => {
 
 app.post('/games/:id/ads', async (request, response) => {
     const gameId = request.params.id;
-    const body = request.body;
+    const body: any = request.body;
 
     const ad = await prisma.ad.create({
         data: {
@@ -40,14 +47,14 @@ app.post('/games/:id/ads', async (request, response) => {
             name: body.name,
             yearsPlaying: body.yearsPlaying,
             discord: body.discord,
-            weekDays: body.weekDays,
-            hourStart: body.hourStart,
-            hourEnd: body.hourEnd,
+            weekDays: body.weekDays.join(','),
+            hourStart: convert1(body.hourStart),
+            hourEnd: convert1(body.hourEnd),
             useVoiceChannel: body.useVoiceChannel
         }
     })
 
-    return response.json(body);
+    return response.status(201).json(body);
 })
 
 app.get('/games/:id/ads', async (request, response) => {
@@ -73,7 +80,9 @@ app.get('/games/:id/ads', async (request, response) => {
     return response.json(ads.map(ad => {
         return {
             ...ad,
-            weekDays: ad.weekDays.split(',')
+            weekDays: ad.weekDays.split(','),
+            hourStart: convert2(ad.hourStart),
+            hourEnd: convert2(ad.hourStart),
         }
     }))
 });
@@ -81,7 +90,7 @@ app.get('/games/:id/ads', async (request, response) => {
 app.get('/ads/:id/discord', async (request, response) => {
     const adId = request.params.id;
 
-    const ads = await prisma.ad.findUniqueOrThrow({
+    const ad = await prisma.ad.findUniqueOrThrow({
         select: {
             discord: true,
         },
@@ -90,7 +99,7 @@ app.get('/ads/:id/discord', async (request, response) => {
         }
     })
     return response.json({
-        discord: ads.discord
+        discord: ad.discord
     })
 });
 
