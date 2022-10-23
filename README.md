@@ -11,3 +11,6 @@ Projeto NLW, envolvendo React, Node e React Native
   <li>React Native</li>
   <li>Expo</li>
 </ul>
+<br>
+<h1>Project</h1>
+<span>Project that finds its perfect duo in a specific game</span>
