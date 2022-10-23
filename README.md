@@ -1,7 +1,7 @@
 # Projeto-NLW
 Projeto NLW, envolvendo React, Node e React Native
 
-<h1>Technologies</h1>
+<h1>🚀 Technologies</h1>
 <ul>
   <li>Node</li>
   <li>Typescript</li>
@@ -12,5 +12,5 @@ Projeto NLW, envolvendo React, Node e React Native
   <li>Expo</li>
 </ul>
 <br>
-<h1>Project</h1>
+<h1>💻 Project</h1>
 <span>Project that finds its perfect duo in a specific game</span>
