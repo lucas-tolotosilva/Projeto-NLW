@@ -1,5 +1,5 @@
 # Projeto-NLW
-Projeto NLW, envolvendo React, Node e React Native
+Projeto NLW, envolvendo React, Node e React Native to Study.
 
 <h1>🚀 Technologies</h1>
 <ul>
